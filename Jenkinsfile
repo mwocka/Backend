@@ -1,4 +1,4 @@
-def imageName="pandaacademy/backend"
+def imageName="mateuszwocka/backend"
 def dockerRegistry=""
 def registryCredentials="dockerhub"
 def dockerTag=""
