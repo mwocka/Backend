@@ -63,6 +63,8 @@ pipeline {
                     git branch: 'main', url: 'https://github.com/mwocka/ArgoCD.git'
                     sh """ ls
                     cd backend
+                    config --global user.email "mateusz.wocka@gmail.com"
+                    config --global user.name "mwocka"
                     sed "s#$imageName.*#$imageName:$dockerTag#g" deployment.yaml
                     git commit -am "Set new $dockerTag tag."
                     git diff
