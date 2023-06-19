@@ -60,20 +60,18 @@ pipeline {
         stage ('Push to repo') {
             steps {
                 dir('ArgoCD') {
-                withCredentials([gitUsernamePassword(credentialsId: 'git', gitToolName: 'Default')]) {
-                    git branch: 'main', url: 'https://github.com/mwocka/ArgoCD.git'
-                    sh """ ls
-                    
-                    cd backend
-                    git config --global user.email "mateusz.wocka@gmail.com"
-                    git config --global user.name "mwocka"
-                    sed -i "s#$imageName.*#$imageName:$dockerTag#g" deployment.yaml
-                    git commit -am "Set new $dockerTag tag."
-                    git diff
-                    git push origin main
-                    """
-                }                  
-            }
+                    withCredentials([gitUsernamePassword(credentialsId: 'git', gitToolName: 'Default')]) {
+                        git branch: 'main', url: 'https://github.com/mwocka/ArgoCD.git'
+                        sh """ cd backend
+                        git config --global user.email "mateusz.wocka@gmail.com"
+                        git config --global user.name "mwocka"
+                        sed -i "s#$imageName.*#$imageName:$dockerTag#g" deployment.yaml
+                        git commit -am "Set new $dockerTag tag."
+                        git diff
+                        git push origin main
+                        """
+                    }                  
+                } 
             }
         }
     }
