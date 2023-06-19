@@ -70,7 +70,7 @@ pipeline {
                     sed -i "s#$imageName.*#$imageName:$dockerTag#g" deployment.yaml
                     git commit -am "Set new $dockerTag tag."
                     git diff
-                    git push
+                    git push origin main
                     """
                 }                  
             }
