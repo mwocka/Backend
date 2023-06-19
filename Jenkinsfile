@@ -62,7 +62,7 @@ pipeline {
                 withCredentials([gitUsernamePassword(credentialsId: 'git', gitToolName: 'Default')]) {
                     git branch: 'main', url: 'https://github.com/mwocka/ArgoCD.git'
                     sh """ ls
-                    cd ArgoCD
+                    cd backend
                     sed "s#$imageName.*#$imageName:$dockerTag#g" deployment.yaml
                     git commit -am "Set new $dockerTag tag."
                     git diff
