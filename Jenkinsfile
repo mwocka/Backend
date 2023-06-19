@@ -59,9 +59,11 @@ pipeline {
         }
         stage ('Push to repo') {
             steps {
+                dir('ArgoCD') {
                 withCredentials([gitUsernamePassword(credentialsId: 'git', gitToolName: 'Default')]) {
                     git branch: 'main', url: 'https://github.com/mwocka/ArgoCD.git'
                     sh """ ls
+                    git pull
                     cd backend
                     git config --global user.email "mateusz.wocka@gmail.com"
                     git config --global user.name "mwocka"
@@ -71,6 +73,7 @@ pipeline {
                     git push
                     """
                 }                  
+            }
             }
         }
     }
