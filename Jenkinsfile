@@ -63,7 +63,7 @@ pipeline {
                     git branch: 'main', url: 'https://github.com/mwocka/ArgoCD.git'
                     sh """ ls
                     cd ArgoCD
-                    sed "s/mateuszwocka\/backend.*/mateuszwocka\/backend:$dockerTag/g" deployment.yaml
+                    sed "s/mateuszwocka\\\/backend.*/mateuszwocka\\\/backend:$dockerTag/g" deployment.yaml
                     git commit -am "Set new $dockerTag tag."
                     git diff
                     git push
