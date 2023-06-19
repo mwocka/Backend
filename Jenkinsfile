@@ -26,37 +26,37 @@ pipeline {
             }
         }
 
-        // stage('Sonarqube analysis') {
-        //     steps {
-        //         withSonarQubeEnv('SonarQube') {
-        //             sh "${scannerHome}/bin/sonar-scanner"
-        //         }
-        //         timeout(time: 1, unit: 'MINUTES') {
-        //             waitForQualityGate abortPipeline: true
-        //         }
-        //     }
-        // }
+        stage('Sonarqube analysis') {
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                    sh "${scannerHome}/bin/sonar-scanner"
+                }
+                timeout(time: 1, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
 
-        // stage('Build application image') {
-        //     steps {
-        //         script {
-        //           // Prepare basic image for application
-        //           dockerTag = "RC-${env.BUILD_ID}.${env.GIT_COMMIT.take(7)}"
-        //           applicationImage = docker.build("$imageName:$dockerTag",".")
-        //         }
-        //     }
-        // }
+        stage('Build application image') {
+            steps {
+                script {
+                  // Prepare basic image for application
+                  dockerTag = "RC-${env.BUILD_ID}.${env.GIT_COMMIT.take(7)}"
+                  applicationImage = docker.build("$imageName:$dockerTag",".")
+                }
+            }
+        }
 
-        // stage ('Pushing image to Artifactory') {
-        //     steps {
-        //         script {
-        //             docker.withRegistry("$dockerRegistry", "$registryCredentials") {
-        //                 applicationImage.push()
-        //                 applicationImage.push('latest')
-        //             }
-        //         }
-        //     }
-        // }
+        stage ('Pushing image to Artifactory') {
+            steps {
+                script {
+                    docker.withRegistry("$dockerRegistry", "$registryCredentials") {
+                        applicationImage.push()
+                        applicationImage.push('latest')
+                    }
+                }
+            }
+        }
         stage ('Push to repo') {
             steps {
                 dir('ArgoCD') {
